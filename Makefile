@@ -1,9 +1,18 @@
 APP_ID := ru.katy248.kernel-manager-gtk
 
+.PHONY: run publish run-release install
+
 run:
 	echo "Note that I will use sudo!" >&2
 	# GDK_SYNCHRONIZE=1 
 	sudo dotnet run --project kernel-manager-gtk/kernel-manager-gtk.csproj
+
+run-release: publish
+	./publish/kernel-manager-gtk
+
+publish:
+	dotnet publish -c Release --no-self-contained --ucr -o "./publish"
+
 
 PO_FILES := $(wildcard ./po/*.po)
 MO_FILES := $(patsubst ./po/%.po, ./mo/%.mo, $(PO_FILES))

@@ -33,12 +33,12 @@ public class KernelView : Gtk.Box
 
     private void ActivateHandler()
     {
-        var defKern = CliWrapper.Run("grubby", "--default-kernel").First();
-        var realKern = _kernel.InstallPath;
+        //var defKern = CliWrapper.Run("grubby", "--default-kernel").First();
+        //var realKern = _kernel.InstallPath;
 
-        Console.WriteLine(
-            $"Default kernel: {defKern}, current item: {realKern}, is this item default: {_kernel.IsDefault}"
-        );
+        // Console.WriteLine(
+        // $"Default kernel: {defKern}, current item: {realKern}, is this item default: {_kernel.IsDefault}"
+        // );
 
         _preferencesGroup.SetTitle(_kernel.Version + (_kernel.IsDefault ? " " + _l.GetString("(default)") : ""));
         if (_kernel.IsInstalled)
@@ -98,19 +98,19 @@ public class KernelView : Gtk.Box
 
     private void SetAsDefault()
     {
-        CliWrapper.Run("grubby", $"--set-default={_kernel.InstallPath}");
+        CliWrapper.Run($"grubby --set-default={_kernel.InstallPath}", true);
         Update();
     }
 
     private void Install()
     {
-        CliWrapper.Run("dnf", $"install -y {_kernel.PackageName}");
+        CliWrapper.Run($"dnf install -y {_kernel.PackageName}", true);
         Update();
     }
 
     private void Delete()
     {
-        CliWrapper.Run("dnf", $"remove -y {_kernel.PackageName}");
+        CliWrapper.Run($"dnf remove -y {_kernel.PackageName}", true);
         Update();
     }
 }

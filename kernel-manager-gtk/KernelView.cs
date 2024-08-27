@@ -98,19 +98,19 @@ public class KernelView : Gtk.Box
 
     private void SetAsDefault()
     {
-        CliWrapper.Run($"grubby --set-default={_kernel.InstallPath}", true);
+        CliWrapper.RunAsync($"grubby --set-default={_kernel.InstallPath}", true);
         Update();
     }
 
     private void Install()
     {
-        CliWrapper.Run($"dnf install -y {_kernel.PackageName}", true);
+        CliWrapper.RunAsync($"dnf install -y {_kernel.PackageName}", true);
         Update();
     }
 
     private void Delete()
     {
-        CliWrapper.Run($"dnf remove -y {_kernel.PackageName}", true);
+        CliWrapper.RunAsync($"dnf remove -y {_kernel.PackageName}", true);
         Update();
     }
 }

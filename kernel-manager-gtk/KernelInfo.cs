@@ -4,8 +4,12 @@ public class KernelInfo
 {
     static KernelInfo()
     {
-        _defaultKernel = CliWrapper.Run("grubby --default-kernel", true).First().Trim();
+        // _defaultKernel = CliWrapper
+        // .Run("grubby --default-kernel", true)
+        // .First()
+        // .Trim();
     }
+    private static object _defaultKernelLock = new();
 
     public string Version { get; set; } = "0.0.0";
     public bool IsDefault =>
@@ -21,9 +25,11 @@ public class KernelInfo
     {
         get
         {
-            _defaultKernel ??= CliWrapper.Run("grubby --default-kernel", true).First().Trim();
-
-            return _defaultKernel;
+            lock (_defaultKernelLock)
+            {
+                _defaultKernel ??= CliWrapper.Run("grubby --default-kernel", true).First().Trim();
+                return _defaultKernel;
+            }
         }
     }
 

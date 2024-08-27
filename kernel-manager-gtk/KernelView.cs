@@ -12,7 +12,7 @@ public class KernelView : Gtk.Box
     private readonly ICatalog _l;
 
     public KernelView(KernelInfo kernel, MainWindow window, ICatalog localeCatalog)
-    : base()
+        : base()
     {
         _kernel = kernel;
         _window = window;
@@ -25,7 +25,6 @@ public class KernelView : Gtk.Box
 
         Append(_preferencesGroup);
         Append(_setAsDefaultButton);
-
     }
 
     private readonly Adw.PreferencesGroup _preferencesGroup;
@@ -40,7 +39,9 @@ public class KernelView : Gtk.Box
         // $"Default kernel: {defKern}, current item: {realKern}, is this item default: {_kernel.IsDefault}"
         // );
 
-        _preferencesGroup.SetTitle(_kernel.Version + (_kernel.IsDefault ? " " + _l.GetString("(default)") : ""));
+        _preferencesGroup.SetTitle(
+            _kernel.Version + (_kernel.IsDefault ? " " + _l.GetString("(default)") : "")
+        );
         if (_kernel.IsInstalled)
         {
             var row = Adw.ActionRow.New();
@@ -53,11 +54,12 @@ public class KernelView : Gtk.Box
 
         _setAsDefaultButton
             .ClickHandler(SetAsDefault)
-              .Content(c =>
-              {
-                  c.SetLabel(_l.GetString("Set as default"));
-                  c.SetIconName("object-select-symbolic");
-              }).AddCssClass("pill");
+            .Content(c =>
+            {
+                c.SetLabel(_l.GetString("Set as default"));
+                c.SetIconName("object-select-symbolic");
+            })
+            .AddCssClass("pill");
 
         Update();
     }
@@ -75,7 +77,6 @@ public class KernelView : Gtk.Box
 
     public void Update()
     {
-
         if (_kernel.IsInstalled && !_kernel.IsDefault)
         {
             var suffix = Button

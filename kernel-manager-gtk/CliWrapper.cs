@@ -5,7 +5,11 @@ namespace KernelManagerGtk;
 public static class CliWrapper
 {
     /// <exception cref="Exception"></exception>
-    public static async Task<string[]> RunAsync(string command, bool asSuperuser = false, CancellationToken ct = default)
+    public static async Task<string[]> RunAsync(
+        string command,
+        bool asSuperuser = false,
+        CancellationToken ct = default
+    )
     {
         if (asSuperuser)
         {
@@ -14,13 +18,13 @@ public static class CliWrapper
         }
         else
         {
-            System.Console.WriteLine("Command shouldn't be run as root");
+            Console.WriteLine("Command shouldn't be run as root");
         }
 
         var baseCommand = command.Split(' ').First();
         var args = command.Replace(baseCommand, "");
 
-        System.Console.WriteLine("Coomand to run: {0}", command);
+        Console.WriteLine("Coomand to run: {0}", command);
 
         var info = new ProcessStartInfo
         {
@@ -39,10 +43,10 @@ public static class CliWrapper
         }
 
         var output = await result.StandardOutput.ReadToEndAsync(ct);
-        var lines = output
-            .Split('\n', StringSplitOptions.RemoveEmptyEntries);
+        var lines = output.Split('\n', StringSplitOptions.RemoveEmptyEntries);
         return lines;
     }
+
     public static string[] Run(string command, bool asSuperuser = false)
     {
         return RunAsync(command, asSuperuser, CancellationToken.None).GetAwaiter().GetResult();
@@ -56,6 +60,9 @@ public static class CliWrapper
             System.Console.WriteLine("Current user is root, no need for additional auth");
             return "";
         }
-        else { return "pkexec "; }
+        else
+        {
+            return "pkexec ";
+        }
     }
 }

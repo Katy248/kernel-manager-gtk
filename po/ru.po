@@ -7,40 +7,83 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-08-29 14:28+0300\n"
 "Last-Translator: Anton (Katy) Petrov petrovanton247@gmail.com\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: kernel-manager-gtk/KernelView.cs:43
+#: kernel-manager-gtk/KernelView.cs:58
 msgid "(default)"
-msgstr "(по умолчанию)"
+msgstr "(основное)"
 
-#: kernel-manager-gtk/KernelView.cs:48 kernel-manager-gtk/KernelView.cs:50
+#: kernel-manager-gtk/KernelView.cs:64 kernel-manager-gtk/KernelView.cs:66
 msgid "Location"
 msgstr "Расположение"
 
-#: kernel-manager-gtk/KernelView.cs:52
+#: kernel-manager-gtk/KernelView.cs:68
 msgid "Package"
 msgstr "Пакет"
 
-#: kernel-manager-gtk/KernelView.cs:58
+#: kernel-manager-gtk/KernelView.cs:74
 msgid "Set as default"
 msgstr "Установить как основное"
 
-#: kernel-manager-gtk/KernelView.cs:84
+#: kernel-manager-gtk/KernelView.cs:83
+msgid "Default"
+msgstr "Основное"
+
+#: kernel-manager-gtk/KernelView.cs:108
 msgid "Delete"
 msgstr "Удалить"
 
-#: kernel-manager-gtk/KernelView.cs:95
+#: kernel-manager-gtk/KernelView.cs:118
 msgid "Install"
 msgstr "Установить"
 
-#: kernel-manager-gtk/MainWindow.cs:27
+#: kernel-manager-gtk/KernelView.cs:139
+#, csharp-format
+msgid "Kernel {0} has been set as default"
+msgstr "Ядро {0} установлено как основное"
+
+#: kernel-manager-gtk/KernelView.cs:147 kernel-manager-gtk/KernelView.cs:166
+#: kernel-manager-gtk/KernelView.cs:184
+#, csharp-format
+msgid "Some errors occurred {0}"
+msgstr "Произошла ошибка {0}"
+
+#: kernel-manager-gtk/KernelView.cs:154
+msgid "Installation started..."
+msgstr "Установка началась..."
+
+#: kernel-manager-gtk/KernelView.cs:160
+#, csharp-format
+msgid "Kernel {0} has been installed"
+msgstr "Ядро {0} установлено"
+
+#: kernel-manager-gtk/KernelView.cs:178
+#, csharp-format
+msgid "Kernel {0} has been deleted"
+msgstr "Ядро {0} удалено"
+
+#: kernel-manager-gtk/MainWindow.cs:43
+msgid "Keyboard shortcuts"
+msgstr "Комбинации клавиш"
+
+#: kernel-manager-gtk/MainWindow.cs:45
+msgid "Help"
+msgstr "Помощь"
+
+#: kernel-manager-gtk/MainWindow.cs:46
+msgid "About kernel manager"
+msgstr "О менеджере пакетов"
+
+#: kernel-manager-gtk/MainWindow.cs:55
 msgid "Kernel manager"
 msgstr "Менеджер пакетов"
 
-#: kernel-manager-gtk/MainWindow.cs:27
+#: kernel-manager-gtk/MainWindow.cs:55
 msgid "by katy248"
 msgstr "сделано Katy248"

@@ -30,14 +30,25 @@ public static class ButtonExtensions
 
     public static Button ClickHandler(this Button b, Action handler)
     {
-        var th = new Thread(() =>
-        {
-            handler();
-        });
-
         b.OnClicked += (_, _) =>
         {
-            th.Start();
+            new Thread(() =>
+            {
+                handler();
+            }).Start();
+        };
+
+        return b;
+    }
+
+    public static Button ClickHandler(this Button b, Func<Task> handler)
+    {
+        b.OnClicked += (_, _) =>
+        {
+            new Thread(async () =>
+            {
+                await handler();
+            }).Start();
         };
 
         return b;

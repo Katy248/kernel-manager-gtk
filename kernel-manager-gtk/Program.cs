@@ -8,9 +8,8 @@ var app = Adw.Application.New(AppId, Gio.ApplicationFlags.DefaultFlags);
 
 app.OnActivate += (s, args) =>
 {
-    var window = new MainWindow(localeCatalog);
+    var window = new MainWindow(localeCatalog, app);
     app.AddWindow(window);
     window.Present();
 };
-
-app.RunWithSynchronizationContext(args);
+app.Run(args.Length, args);

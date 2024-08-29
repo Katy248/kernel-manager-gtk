@@ -22,13 +22,28 @@ public class KernelView : Gtk.Box
         this.MapHandler(ActivateHandler);
         _preferencesGroup = new();
         _setAsDefaultButton = Button.New();
+        _defaultButton = Button.New();
 
         Append(_preferencesGroup);
         Append(_setAsDefaultButton);
+        Append(_defaultButton);
+
+        kernel.OnInfoUpdated += () =>
+        {
+            new Task(() =>
+            {
+                Update();
+            }).Start();
+        };
     }
 
+    #region Controls
     private readonly Adw.PreferencesGroup _preferencesGroup;
     private readonly Button _setAsDefaultButton;
+
+    /// <summary>Button for showing that current kernel is set as default</summary>
+    private readonly Button _defaultButton;
+    #endregion
 
     private void ActivateHandler()
     {
@@ -57,6 +72,15 @@ public class KernelView : Gtk.Box
             .Content(c =>
             {
                 c.SetLabel(_l.GetString("Set as default"));
+                c.SetIconName("accessories-text-editor-symbolic");
+            })
+            .AddCssClass("pill");
+        _setAsDefaultButton.AddCssClass("suggested-action");
+
+        _defaultButton
+            .Content(c =>
+            {
+                c.SetLabel(_l.GetString("Default"));
                 c.SetIconName("object-select-symbolic");
             })
             .AddCssClass("pill");
@@ -94,24 +118,71 @@ public class KernelView : Gtk.Box
                 .Content(c => c.Icon("browser-download-symbolic").Text(_l.GetString("Install")));
             _preferencesGroup.SetHeaderSuffix(suffix);
         }
+        else
+        {
+            var suffix = Button.New().Content(c => c.Icon("action-unavailable-symbolic"));
+            suffix.AddCssClass("flat");
+            _preferencesGroup.SetHeaderSuffix(suffix);
+        }
+        _defaultButton.SetVisible(_kernel.IsDefault);
         _setAsDefaultButton.SetVisible(!_kernel.IsDefault && _kernel.IsInstalled);
     }
 
-    private void SetAsDefault()
+    private async Task SetAsDefault()
     {
-        CliWrapper.RunAsync($"grubby --set-default={_kernel.InstallPath}", true);
-        Update();
+        _kernel
+            .SetAsDefault()
+            .Success(output =>
+            {
+                _window.Notify(
+                    string.Format(
+                        _l.GetString("Kernel {0} has been set as default"),
+                        _kernel.Version
+                    )
+                );
+            })
+            .Fail(
+                (_, error, _) =>
+                {
+                    _window.Notify(string.Format(_l.GetString("Some errors occurred {0}"), error));
+                }
+            );
     }
 
-    private void Install()
+    private async Task Install()
     {
-        CliWrapper.RunAsync($"dnf install -y {_kernel.PackageName}", true);
-        Update();
+        _window.Notify(_l.GetString("Installation started..."));
+        _kernel
+            .Install()
+            .Success(_ =>
+            {
+                _window.Notify(
+                    string.Format(_l.GetString("Kernel {0} has been installed"), _kernel.Version)
+                );
+            })
+            .Fail(
+                (_, error, _) =>
+                {
+                    _window.Notify(string.Format(_l.GetString("Some errors occurred {0}"), error));
+                }
+            );
     }
 
-    private void Delete()
+    private async Task Delete()
     {
-        CliWrapper.RunAsync($"dnf remove -y {_kernel.PackageName}", true);
-        Update();
+        _kernel
+            .Delete()
+            .Success(_ =>
+            {
+                _window.Notify(
+                    string.Format(_l.GetString("Kernel {0} has been deleted"), _kernel.Version)
+                );
+            })
+            .Fail(
+                (_, error, _) =>
+                {
+                    _window.Notify(string.Format(_l.GetString("Some errors occurred {0}"), error));
+                }
+            );
     }
 }

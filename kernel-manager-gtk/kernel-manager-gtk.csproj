@@ -8,6 +8,8 @@
         <Nullable>enable</Nullable>
         <Version>0.0.1</Version>
         <PublishSingleFile>true</PublishSingleFile>
+        <!-- <PublishAot>true</PublishAot> -->
+        <!-- <OptimizationPreference>Speed</OptimizationPreference> -->
     </PropertyGroup>
 
     <ItemGroup>

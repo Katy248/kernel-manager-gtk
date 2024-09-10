@@ -5,6 +5,10 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "kernel-manager-gtk", "kernel-manager-gtk\kernel-manager-gtk.csproj", "{AD3A2F32-6260-48C9-B66F-8C5493BC10F3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KernelManager", "KernelManager\KernelManager.csproj", "{F7DC72F4-DB0A-4592-89FD-8B895295EDB9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KernelManagerAvalonia", "KernelManagerAvalonia\KernelManagerAvalonia.csproj", "{B4C2F46F-E24C-4625-9AD4-1CCAC0960A6B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,5 +22,13 @@ Global
 		{AD3A2F32-6260-48C9-B66F-8C5493BC10F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AD3A2F32-6260-48C9-B66F-8C5493BC10F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AD3A2F32-6260-48C9-B66F-8C5493BC10F3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F7DC72F4-DB0A-4592-89FD-8B895295EDB9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F7DC72F4-DB0A-4592-89FD-8B895295EDB9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F7DC72F4-DB0A-4592-89FD-8B895295EDB9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F7DC72F4-DB0A-4592-89FD-8B895295EDB9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B4C2F46F-E24C-4625-9AD4-1CCAC0960A6B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B4C2F46F-E24C-4625-9AD4-1CCAC0960A6B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B4C2F46F-E24C-4625-9AD4-1CCAC0960A6B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B4C2F46F-E24C-4625-9AD4-1CCAC0960A6B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

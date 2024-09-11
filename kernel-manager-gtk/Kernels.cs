@@ -4,27 +4,19 @@ namespace KernelManagerGtk;
 
 public class Kernels : IObservable<KernelInfo>
 {
-    private IEnumerable<string> GetAvailableVersions()
+    private IEnumerable<string> GetAvailablePackages()
     {
         var lines = CliWrapper
-            .Run("dnf list --showduplicates --all -q kernel-lt.x86_64")
-            .Where(s => s.StartsWith("kernel-lt"));
-        var versions = lines
-            .Select(l =>
-                l.Split(
-                    ' ',
-                    StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries
-                )[1]
-            )
-            .Distinct();
-        return versions;
+            .Run("rpm -qa kernel-lt");
+        return lines;
     }
 
     public IDisposable Subscribe(IObserver<KernelInfo> o)
     {
-        foreach (var ver in GetAvailableVersions())
+        foreach (var package in GetAvailablePackages())
         {
-            o.OnNext(KernelInfo.FromVersion(ver));
+            System.Console.WriteLine(package);
+            o.OnNext(KernelInfo.FromPackage(package));
         }
         o.OnCompleted();
         return Disposable.Empty;

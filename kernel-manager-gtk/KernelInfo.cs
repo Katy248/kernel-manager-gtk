@@ -73,6 +73,18 @@ public class KernelInfo
     {
         return new KernelInfo { Version = version };
     }
+    public static KernelInfo FromPackage(string package)
+    {
+        var info = new KernelInfo();
+        info.Arch = package.Split('.').Last();
+        System.Console.WriteLine(info.Arch);
+
+        package = package.Replace($".{info.Arch}", "");
+        info.Version = package.Replace("kernel-lt-", "");
+        System.Console.WriteLine(info.Version);
+
+        return info;
+    }
 
     private static readonly CliRunner2 _runner = new();
 

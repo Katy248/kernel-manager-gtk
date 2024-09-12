@@ -1,5 +1,6 @@
 using System.Reactive.Linq;
 using Gtk;
+using KernelManager;
 using KernelManagerGtk.Extensions;
 using NGettext;
 

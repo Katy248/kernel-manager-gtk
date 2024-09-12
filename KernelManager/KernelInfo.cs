@@ -1,16 +1,18 @@
-using System.Runtime.CompilerServices;
+using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace KernelManager;
 
-public class KernelInfo
+public class KernelInfo : ObservableObject
 {
     private static object _defaultKernelLock = new();
     private static object _setAsDefaultLock = new();
     private static object _installDeleteLock = new();
 
+    private string _arch = "x86_64";
+
     public string Version { get; set; } = "0.0.0";
     public bool IsDefault => KernelInfo.DefaultKernel == InstallPath;
-    public string Arch { get; set; } = "x86_64";
+    public string Arch { get => _arch; set => SetProperty(ref _arch, value); }
     public string InstallPath => $"/boot/vmlinuz-{Version}.{Arch}";
     public string PackageName => $"kernel-lt-{Version}.{Arch}";
     public bool IsInstalled => File.Exists(InstallPath);
@@ -20,6 +22,7 @@ public class KernelInfo
     {
         get
         {
+#if RED_OS
             lock (_defaultKernelLock)
             {
                 if (_defaultKernel is null)
@@ -43,6 +46,9 @@ public class KernelInfo
                 }
                 return _defaultKernel;
             }
+#else
+            return "kernel-lt-1.1.1.red80.x86_64";
+#endif
         }
     }
 
@@ -72,6 +78,20 @@ public class KernelInfo
     public static KernelInfo FromVersion(string version)
     {
         return new KernelInfo { Version = version };
+    }
+
+
+    public static KernelInfo FromPackage(string package)
+    {
+        var info = new KernelInfo();
+        info.Arch = package.Split('.').Last();
+        System.Console.WriteLine(info.Arch);
+
+        package = package.Replace($".{info.Arch}", "");
+        info.Version = package.Replace("kernel-lt-", "");
+        System.Console.WriteLine(info.Version);
+
+        return info;
     }
 
     private static readonly CliRunner2 _runner = new();

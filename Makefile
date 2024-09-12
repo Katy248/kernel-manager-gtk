@@ -9,25 +9,27 @@ DOTNET_FLAGS = --configuration=Release
 # env variables
 export LANG=ru_RU.utf-8
 
+#
+run: DOTNET_FLAGS += --property DefineConstants=RED_OS
 run: build
 	echo "Note that I will use sudo!" >&2
 	# GDK_SYNCHRONIZE=1
 	sudo dotnet ./build/$(APP_NAME).dll
 
+run-arch: DOTNET_FLAGS += --property DefineConstants=ARCH_LINUX
+run-arch: build
+	dotnet ./build/$(APP_NAME).dll
+
 build:
-	dotnet build \
-		$(PROJECT_DIR)/$(APP_NAME).csproj \
-		--output ./build \
-		$(DOTNET_FLAGS)
+	@echo "Build flags: '$(DOTNET_FLAGS)'"
+	dotnet build $(PROJECT_DIR)/$(APP_NAME).csproj --output ./build $(DOTNET_FLAGS)
 
 run-publish: publish
 	./publish/kernel-manager-gtk
 
 publish:
-	dotnet publish \
-		-o "./publish" \
-		--no-self-contained --ucr \
-		$(DOTNET_FLAGS)
+	@echo "Build flags: '$(DOTNET_FLAGS)'"
+	dotnet publish -o "./publish" --no-self-contained --ucr $(DOTNET_FLAGS)
 
 SOURCES := $(wildcard $(PROJECT_DIR)/*.cs)
 PO_FILES := $(wildcard ./po/*.po)

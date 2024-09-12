@@ -1,5 +1,6 @@
 using Adw;
 using Gtk;
+using KernelManager;
 using KernelManagerGtk.Extensions;
 using NGettext;
 

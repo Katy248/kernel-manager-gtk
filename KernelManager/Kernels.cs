@@ -1,30 +1,27 @@
 using System.Reactive.Disposables;
+using KernelManager;
 
 namespace KernelManager;
 
 public class Kernels : IObservable<KernelInfo>
 {
-    private IEnumerable<string> GetAvailableVersions()
+    private IEnumerable<string> GetAvailablePackages()
     {
+    #if RED_OS
         var lines = CliWrapper
-            .Run("dnf list --showduplicates --all -q kernel-lt.x86_64")
-            .Where(s => s.StartsWith("kernel-lt"));
-        var versions = lines
-            .Select(l =>
-                l.Split(
-                    ' ',
-                    StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries
-                )[1]
-            )
-            .Distinct();
-        return versions;
+            .Run("rpm -qa kernel-lt");
+        return lines;
+    #else
+        return ["kernel-lt-1.1.1.red80.x86_64"];
+    #endif
     }
 
     public IDisposable Subscribe(IObserver<KernelInfo> o)
     {
-        foreach (var ver in GetAvailableVersions())
+        foreach (var package in GetAvailablePackages())
         {
-            o.OnNext(KernelInfo.FromVersion(ver));
+            System.Console.WriteLine(package);
+            o.OnNext(KernelInfo.FromPackage(package));
         }
         o.OnCompleted();
         return Disposable.Empty;
